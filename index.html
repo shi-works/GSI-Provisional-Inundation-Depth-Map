@@ -119,8 +119,7 @@
             height: 10px;
         }
 
-        /*
-        #pngtile {
+        #select-pngtiles {
             padding: 3px 4px;
             font: 12px/14px Arial, Helvetica, sans-serif;
             color: black;
@@ -128,26 +127,47 @@
             background: rgba(255, 255, 255, 0.9);
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
             border-radius: 5px;
-            width: fit-content;
+            width: 300px;
             position: absolute;
             top: 5px;
             z-index: 10;
         }
-        */
+
+        #pngtiles {
+            width: 100%;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 
 <body>
     <div id="map"></div>
-    <!--
-    <div id="pngtile">
+    <div id="select-pngtiles">
         <label><b>浸水推定図の種類</b></label><br>
-        <select id="basemaps" onchange="SelectMap()">
+        <select id="pngtiles" onchange="SelectPngTiles()">
+            <!--平成30年7月豪雨-->
             <option value="201807H3007gouu_takahashigawa_dansaizu">平成30年7月豪雨 浸水推定段彩図（空中写真判読版） 高梁川（岡山県倉敷市など）</option>
             <option value="201807H3007gouu_hijikawa_dansaizu">平成30年7月豪雨 浸水推定段彩図（空中写真判読版） 肱川（愛媛県大洲市など）</option>
+            <!--令和元年台風第19号-->
+            <option value="20191012typhoon19_naruse_1014dansaizu">令和元年台風第19号 浸水推定段彩図 鳴瀬川水系（吉田川）</option>
+            <option value="20191012typhoon19_abukuma_1014dansaizu">令和元年台風第19号 浸水推定段彩図 阿武隈川水系（阿武隈川）</option>
+            <option value="20191012typhoon19_shinano_1013dansaizu">令和元年台風第19号 浸水推定段彩図 信濃川水系（千曲川）</option>
+            <option value="20191012typhoon19_kuji_1014dansaizu">令和元年台風第19号 浸水推定段彩図 久慈川水系（久慈川）</option>
+            <option value="20191012typhoon19_naka_1014dansaizu">令和元年台風第19号 浸水推定段彩図 那珂川水系（那珂川）</option>
+            <option value="20191012typhoon19_arakawa_1014dansaizu">令和元年台風第19号 浸水推定段彩図 荒川水系（入間川・越辺川・都幾川）</option>
+            <!--令和2年7月豪雨-->
+            <option value="20200703oame_kumagawahitoyoshi_0704dansaizu">令和2年7月豪雨 浸水推定図 球磨川水系球磨川　人吉市周辺（2020年7月4日13時作成）
+            </option>
+            <option value="20200703oame_kumagawa_0704dansaizu">令和2年7月豪雨 浸水推定図 球磨川水系球磨川（2020年7月4日20時作成）</option>
+            <option value="20200703oame_sashikigawayunouragawaashikita_0704dansaizu">令和2年7月豪雨
+                浸水推定図佐敷川及び湯浦川流域　芦北町周辺（2020年7月4日22時作成）</option>
+            <option value="20200703oame_omuta_0707dansaizu">令和2年7月豪雨 浸水推定図 大牟田市周辺（2020年7月7日9時作成）</option>
+            <option value="20200703oame_hita_0707dansaizu">令和2年7月豪雨 浸水推定図 筑後川水系花月川　日田市友田周辺（2020年7月7日14時作成）</option>
+            <option value="20200703oame_miyama_0708dansaizu">令和2年7月豪雨 浸水推定図 矢部川水系矢部川　みやま市周辺（2020年7月8日9時作成）</option>
+            <option value="20200703oame_chikugogawa_0709dansaizu">令和2年7月豪雨 浸水推定図 筑後川水系筑後川第2報（2020年7月9日18時作成）</option>
+            <option value="20200729rain_mogamigawa_0729dansaizu2">令和2年7月豪雨 浸水推定図 最上川水系最上川（2020年7月29日20時作成）</option>
         </select>
     </div>
-    -->
     <div class="legend-png">
         <div class="image-container">
             <img src="201807H3007gouu_dansaizu.png" alt="Legend">
@@ -188,7 +208,7 @@
         maplibregl.addProtocol("pmtiles", protocol.tile);
 
         // 指定緊急避難場所
-        let PM_Hinanbasho_URL = "https://xs489works.xsrv.jp/pmtiles-data/r2kokusei/hinanbasho_v2.pmtiles";
+        let PM_Hinanbasho_URL = "https://xs489works.xsrv.jp/pmtiles-data/gsi/hinanbasho/hinanbasho_20230706.pmtiles";
 
         const p1 = new pmtiles.PMTiles(PM_Hinanbasho_URL)
         protocol.add(p1);
@@ -198,12 +218,12 @@
             // style: 'building3d.json',
             style: 'std.json',
             // style: 'https://tile2.openstreetmap.jp/styles/osm-bright/style.json',
-            zoom: 15.46,
+            zoom: 13.7,
             minZoom: 1,
             maxZoom: 23,
             pitch: 60,
-            bearing: -30,
-            center: [133.698672, 34.630334],
+            bearing: 0,
+            center: [133.68457, 34.62465],
             hash: true,
             attributionControl: false
         });
@@ -334,7 +354,7 @@
                 tiles: [
                     "https://cyberjapandata.gsi.go.jp/xyz/201807H3007gouu_takahashigawa_dansaizu/{z}/{x}/{y}.png"
                 ],
-                attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html#t201807H3007gouu_takahashigawa_dansaizu">平成30年7月豪雨 浸水推定段彩図（空中写真判読版） 高梁川（岡山県倉敷市など）</a>'
+                attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html">地理院タイル(近年の災害)</a>'
             });
 
             map.addLayer({
@@ -370,6 +390,7 @@
                 attribution: '<a href="https://github.com/gsi-cyberjapan/gsivectortile-3d-like-building">地理院地図Vector（仮称）</a>'
             });
 
+            // 地理院地図ベクトルタイル
             // タンク
             map.addLayer({
                 "source": "gsibv-vectortile-source-1-4-16",
@@ -511,7 +532,7 @@
             map.addLayer({
                 "id": "hinanbasho-1",
                 "source": "pmtiles-hinan",
-                "source-layer": "hinanbasho",
+                "source-layer": "hinanbasho_20230706",
                 "type": "symbol", // typeを'symbol'に変更
                 "layout": {
                     "icon-image": "location-pin", // 使用するアイコン名を指定
@@ -523,43 +544,307 @@
             // フィルタ設定
             map.setFilter('hinanbasho-1', ['==', '洪水', '1']);
 
-            // 指定緊急避難場所ポップアップ表示
-            map.on('click', 'hinanbasho-1', (e) => {
-                var lng = e.lngLat.lng;
-                var lat = e.lngLat.lat;
-                var jusho = e.features[0].properties['住所'];
-                var shisetsumei = e.features[0].properties['施設・場所名'];
-                var chofuku = e.features[0].properties['指定避難所との重複'];
-
-                var SyubetuIds = ["洪水", "崖崩れ、土石流及び地滑り", "高潮", "津波", "大規模な火事", "内水氾濫", "火山現象"];
-                var SyubetuMei = ''
-                for (var j = 0; j < SyubetuIds.length; j++) {
-
-                    if (e.features[0].properties[SyubetuIds[j]] === '1') {
-                        SyubetuMei += SyubetuIds[j] + "　"
-                    }
-                }
-
-                if (chofuku === '1') { res_chofuku = "〇"; } else { res_chofuku = "-"; }
-
-                new maplibregl.Popup()
-                    .setLngLat(e.lngLat)
-                    .setHTML(
-                        '<b>' + '<big>' + '<font color="red">' + shisetsumei + '</font>' + '</big>' + '</b>' + '<br>'
-                        + '住所: ' + jusho + '<br>'
-                        + '<a href=\https://www.google.com/maps?q=' + lat + "," + lng + "&hl=ja' target='_blank'>🌎Google Maps</a>"
-                        + '<br><br>'
-                        + '<b>' + '<big>' + '対応している災害の種別' + '</big>' + '</b>' + '<br>' + SyubetuMei + '<br><br>'
-                        + '指定避難所との重複: ' + res_chofuku + '<br><br>'
-                        + '<b>' + '※最新かつ詳細の状況などは必ず当該市町村にご確認ください。' + '</b>' + '<br>'
-                        + '<a href=https://www.gsi.go.jp/bousaichiri/hinanbasho.html>「指定緊急避難場所」について</a>')
-                    .addTo(map);
-
-            });
-
             // map.showTileBoundaries = true;
 
         })
+
+        // マップの中心座標を設定
+        function getMapCenter(CenterText) {
+            const CenterTable = {
+                // 緯度、経度、ズームレベル、ベアリング、ピッチ
+                // 平成30年7月豪雨
+                '201807H3007gouu_takahashigawa_dansaizu': [34.62465, 133.68457, 13.7, 0, 60],
+                '201807H3007gouu_hijikawa_dansaizu': [33.532237, 132.572021, 14, 0, 60],
+                // 令和元年台風第19号
+                '20191012typhoon19_naruse_1014dansaizu': [38.44149, 141.00536, 12.5, 0, 60],
+                '20191012typhoon19_abukuma_1014dansaizu': [37.85414, 140.57538, 13.7, 0, 60],
+                '20191012typhoon19_shinano_1013dansaizu': [36.68515, 138.27631, 13.7, 0, 60],
+                '20191012typhoon19_kuji_1014dansaizu': [36.518466, 140.460205, 14, 0, 60],
+                '20191012typhoon19_naka_1014dansaizu': [36.43173, 140.42166, 13.4, 0, 60],
+                '20191012typhoon19_arakawa_1014dansaizu': [35.951330, 139.449463, 14, 0, 60],
+                // 令和2年7月豪雨
+                '20200703oame_kumagawahitoyoshi_0704dansaizu': [32.222096, 130.726318, 14, 0, 60],
+                '20200703oame_kumagawa_0704dansaizu': [32.444885, 130.660400, 14, 0, 60],
+                '20200703oame_sashikigawayunouragawaashikita_0704dansaizu': [32.296420, 130.484619, 14, 0, 60],
+                '20200703oame_omuta_0707dansaizu': [33.0272, 130.4393, 14.2, 0, 60],
+                '20200703oame_hita_0707dansaizu': [33.325939, 130.907593, 15, 0, 60],
+                '20200703oame_miyama_0708dansaizu': [33.128351, 130.462646, 14, 0, 60],
+                '20200703oame_chikugogawa_0709dansaizu': [33.33496, 130.56938, 12.6, 0, 60],
+                '20200729rain_mogamigawa_0729dansaizu2': [38.45467, 140.3437, 13.9, 0, 60],
+            };
+            return CenterTable[CenterText];
+        }
+
+        // PngTiles切り替え表示
+        function SelectPngTiles() {
+            var PngTilesName = document.getElementById('pngtiles').value;
+
+            // 一旦、レイヤ削除
+            map.removeLayer('flood_l2_shinsuishin');
+            map.removeLayer('gsi-shinsui-tiles');
+            map.removeSource('gsi-shinsui');
+            map.removeLayer('buildings4302');
+            map.removeLayer('buildings4301');
+            map.removeLayer('buildings3111');
+            map.removeLayer('buildings3112');
+            map.removeLayer('buildings3101');
+            map.removeLayer('buildings3102');
+            map.removeLayer('buildings3103');
+            map.removeLayer('hinanbasho-1');
+
+            // 値を緯度、経度にそれぞれ代入
+            const locationInfo = getMapCenter(PngTilesName);
+
+            const latitude = locationInfo[0];
+            const longitude = locationInfo[1];
+            const zoomlevel = locationInfo[2];
+            const bearing = locationInfo[3];
+            const pitch = locationInfo[4];
+
+            // マップの中心座標へ遷移
+            map.flyTo({
+                center: [longitude, latitude],
+                zoom: zoomlevel,
+                bearing: bearing,
+                pitch: pitch
+            });
+
+            // 洪水浸水想定区域（想定最大規模）ラスタータイル
+            map.addLayer({
+                id: "flood_l2_shinsuishin",
+                type: "raster",
+                source: "flood_l2_shinsuishin",
+                minzoom: 6,
+                maxzoom: 18,
+                'paint': {
+                    'raster-opacity': 1.0
+                },
+                'layout': {
+                    'visibility': 'visible'
+                }
+            });
+
+            // スライダーで洪水浸水想定区域（想定最大規模）の不透明度を制御
+            const kouzui_sliderOpactiy = document.getElementById('kouzui-slider-opacity');
+            const kouzui_sliderOpactiyValue = document.getElementById('kouzui-slider-opacity-value');
+
+            kouzui_sliderOpactiy.addEventListener('input', (e) => {
+                map.setPaintProperty(
+                    'flood_l2_shinsuishin',
+                    'raster-opacity',
+                    parseInt(e.target.value, 10) / 100
+                );
+                kouzui_sliderOpactiyValue.textContent = e.target.value + '%';
+            });
+
+            // 浸水推定図ラスタータイル
+            map.addSource("gsi-shinsui", {
+                type: "raster",
+                tiles: [
+                    "https://cyberjapandata.gsi.go.jp/xyz/" + PngTilesName + "/{z}/{x}/{y}.png"
+                ],
+                attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html">地理院タイル(近年の災害)</a>'
+            });
+
+            map.addLayer({
+                id: 'gsi-shinsui-tiles',
+                type: 'raster',
+                source: 'gsi-shinsui',
+                minzoom: 6,
+                maxzoom: 18,
+                paint: {
+                    'raster-opacity': 1.0
+                }
+            });
+
+            // スライダーで浸水推定図の不透明度を制御
+            const shinsui_sliderOpactiy = document.getElementById('shinsui-slider-opacity');
+            const shinsui_sliderOpactiyValue = document.getElementById('shinsui-slider-opacity-value');
+
+            shinsui_sliderOpactiy.addEventListener('input', (e) => {
+                map.setPaintProperty(
+                    'gsi-shinsui-tiles',
+                    'raster-opacity',
+                    parseInt(e.target.value, 10) / 100
+                );
+                shinsui_sliderOpactiyValue.textContent = e.target.value + '%';
+            });
+
+            // 地理院地図ベクトルタイル
+            // タンク
+            map.addLayer({
+                "source": "gsibv-vectortile-source-1-4-16",
+                "minzoom": 13,
+                "maxzoom": 18,
+                "id": "buildings4302",
+                "metadata": { "name": "タンク" },
+                "type": "fill-extrusion",
+                "source-layer": "structurea",
+                "filter": ["all", ["==", "ftCode", 4302], ["==", "$type", "Polygon"]],
+                "paint": {
+                    // "fill-extrusion-color": "rgb(0,100,150)",
+                    "fill-extrusion-color": "rgb(242,234,226)",
+                    "fill-extrusion-opacity": 0.8,
+                    "fill-extrusion-height": 10
+                }
+            });
+
+            // 巨大構造物
+            map.addLayer({
+                "source": "gsibv-vectortile-source-1-4-16",
+                "minzoom": 13,
+                "maxzoom": 18,
+                "id": "buildings4301",
+                "metadata": { "name": "巨大構造物" },
+                "type": "fill-extrusion",
+                "source-layer": "structurea",
+                "filter": ["all", ["==", "ftCode", 4301], ["==", "$type", "Polygon"]],
+                "paint": {
+                    // "fill-extrusion-color": "rgb(0,100,150)",
+                    "fill-extrusion-color": "rgb(242,234,226)",
+                    "fill-extrusion-opacity": 0.8,
+                    "fill-extrusion-height": 100
+                }
+            });
+
+            // 普通無壁舎
+            map.addLayer({
+                "source": "gsibv-vectortile-source-1-4-16",
+                "minzoom": 14,
+                "maxzoom": 18,
+                "id": "buildings3111",
+                "metadata": { "name": "普通無壁舎" },
+                "type": "fill-extrusion",
+                "source-layer": "building",
+                "filter": ["all", ["==", "ftCode", 3111], ["==", "$type", "Polygon"]],
+                "paint": {
+                    // "fill-extrusion-color": "rgb(0,100,150)",
+                    "fill-extrusion-color": "rgb(242,234,226)",
+                    "fill-extrusion-opacity": 0.5,
+                    "fill-extrusion-height": 10
+                }
+            });
+
+            // 堅ろう無壁舎
+            map.addLayer({
+                "source": "gsibv-vectortile-source-1-4-16",
+                "minzoom": 13,
+                "maxzoom": 18,
+                "id": "buildings3112",
+                "metadata": { "name": "堅ろう無壁舎" },
+                "type": "fill-extrusion",
+                "source-layer": "building",
+                "filter": ["all", ["==", "ftCode", 3112], ["==", "$type", "Polygon"]],
+                "paint": {
+                    "fill-extrusion-color": "rgb(150,200,255)",
+                    "fill-extrusion-opacity": 0.5,
+                    "fill-extrusion-height": 40
+                }
+            });
+
+            // 普通建物
+            map.addLayer({
+                "source": "gsibv-vectortile-source-1-4-16",
+                "minzoom": 14,
+                "maxzoom": 18,
+                "id": "buildings3101",
+                "metadata": { "name": "普通建物" },
+                "type": "fill-extrusion",
+                "source-layer": "building",
+                "filter": ["all", ["==", "ftCode", 3101], ["==", "$type", "Polygon"]],
+                "paint": {
+                    // "fill-extrusion-color": "rgb(0,100,150)",
+                    "fill-extrusion-color": "rgb(242,234,226)",
+                    "fill-extrusion-opacity": 0.8,
+                    "fill-extrusion-height": 10
+                }
+            });
+
+            // 堅ろう建物
+            map.addLayer({
+                "source": "gsibv-vectortile-source-1-4-16",
+                "minzoom": 13,
+                "maxzoom": 18,
+                "id": "buildings3102",
+                "metadata": { "name": "堅ろう建物" },
+                "type": "fill-extrusion",
+                "source-layer": "building",
+                "filter": ["all", ["==", "ftCode", 3102], ["==", "$type", "Polygon"]],
+                "paint": {
+                    "fill-extrusion-color": "rgb(150,200,255)",
+                    "fill-extrusion-opacity": 0.8,
+                    "fill-extrusion-height": 40
+                }
+            });
+
+            // 高層建物
+            map.addLayer({
+                "source": "gsibv-vectortile-source-1-4-16",
+                "minzoom": 13,
+                "maxzoom": 18,
+                "id": "buildings3103",
+                "metadata": { "name": "高層建物" },
+                "type": "fill-extrusion",
+                "source-layer": "building",
+                "filter": ["all", ["==", "ftCode", 3103], ["==", "$type", "Polygon"]],
+                "paint": {
+                    "fill-extrusion-color": "rgb(0,255,255)",
+                    "fill-extrusion-opacity": 0.8,
+                    "fill-extrusion-height": 100
+                }
+            });
+
+            // 指定緊急避難場所シンボルレイヤ
+            map.addLayer({
+                "id": "hinanbasho-1",
+                "source": "pmtiles-hinan",
+                "source-layer": "hinanbasho_20230706",
+                "type": "symbol", // typeを'symbol'に変更
+                "layout": {
+                    "icon-image": "location-pin", // 使用するアイコン名を指定
+                    // 必要に応じて、アイコンのサイズを調整する
+                    "icon-size": 0.6 // アイコンの大きさを変更（オプション）
+                }
+            });
+
+            // フィルタ設定
+            map.setFilter('hinanbasho-1', ['==', '洪水', '1']);
+
+        }
+
+        // 指定緊急避難場所ポップアップ表示
+        map.on('click', 'hinanbasho-1', (e) => {
+            var lng = e.lngLat.lng;
+            var lat = e.lngLat.lat;
+            var jusho = e.features[0].properties['住所'];
+            var shisetsumei = e.features[0].properties['施設・場所名'];
+            var chofuku = e.features[0].properties['指定避難所との住所同一'];
+
+            var SyubetuIds = ["洪水", "崖崩れ、土石流及び地滑り", "高潮", "津波", "大規模な火事", "内水氾濫", "火山現象"];
+            var SyubetuMei = ''
+            for (var j = 0; j < SyubetuIds.length; j++) {
+
+                if (e.features[0].properties[SyubetuIds[j]] === '1') {
+                    SyubetuMei += SyubetuIds[j] + "　"
+                }
+            }
+
+            if (chofuku === '1') { res_chofuku = "〇"; } else { res_chofuku = "-"; }
+
+            new maplibregl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML(
+                    '<b>' + '<big>' + '<font color="red">' + shisetsumei + '</font>' + '</big>' + '</b>' + '<br>'
+                    + '住所: ' + jusho + '<br>'
+                    + '<a href=\https://www.google.com/maps?q=' + lat + "," + lng + "&hl=ja' target='_blank'>🌎Google Maps</a>"
+                    + '<br><br>'
+                    + '<b>' + '<big>' + '対応している災害の種別' + '</big>' + '</b>' + '<br>' + SyubetuMei + '<br><br>'
+                    + '指定避難所との住所同一: ' + res_chofuku + '<br><br>'
+                    + '<b>' + '※最新かつ詳細の状況などは必ず当該市町村にご確認ください。' + '</b>' + '<br>'
+                    + '<a href=https://www.gsi.go.jp/bousaichiri/hinanbasho.html>「指定緊急避難場所」について</a>')
+                .addTo(map);
+
+        });
     </script>
 </body>
 
