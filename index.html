@@ -614,6 +614,7 @@
             map.removeLayer('buildings3101');
             map.removeLayer('buildings3102');
             map.removeLayer('buildings3103');
+            map.removeLayer('gsi-label-layer');
             map.removeLayer('hinanbasho-1');
 
             // 値を緯度、経度にそれぞれ代入
@@ -815,6 +816,30 @@
                     "fill-extrusion-color": "rgb(0,255,255)",
                     "fill-extrusion-opacity": 0.8,
                     "fill-extrusion-height": 100
+                }
+            });
+
+            // 注記-河川名
+            map.addLayer({
+                "type": "symbol",
+                "id": "gsi-label-layer",
+                "source": "gsibv-vectortile-source-1-4-16",
+                "source-layer": "label",
+                "minzoom": 11,
+                "maxzoom": 16,
+                "filter": ["all", ["==", "ftCode", 100], ["==", "annoCtg", 322]],
+                "paint": {
+                    'text-color': 'rgba(0, 101, 203, 1)',
+                    "text-halo-color": "rgba(255, 255, 255, 1)",
+                    "text-halo-width": 1.0
+                },
+                "layout": {
+                    "text-size": 20,
+                    "text-font": ["Open Sans Bold"],
+                    "text-field": ["get", "knj"],
+                    "symbol-placement": "point",
+                    "text-allow-overlap": false,
+                    "visibility": "visible"
                 }
             });
 
