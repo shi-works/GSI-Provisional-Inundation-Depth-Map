@@ -210,13 +210,8 @@
         // 指定緊急避難場所
         let PM_Hinanbasho_URL = "https://xs489works.xsrv.jp/pmtiles-data/gsi/hinanbasho/hinanbasho_20230706.pmtiles";
 
-        // 国土地理院ベクトルタイル
-        let PM_Gsimaps_Vector_URL = "https://xs489works.xsrv.jp/pmtiles-data/gsi/gsimaps_vector/gsimaps_vector_experiment_zoomlevel_11_point.pmtiles";
-
         const p1 = new pmtiles.PMTiles(PM_Hinanbasho_URL)
-        const p2 = new pmtiles.PMTiles(PM_Gsimaps_Vector_URL)
         protocol.add(p1);
-        protocol.add(p2);
 
         const map = new maplibregl.Map({
             container: 'map',
@@ -519,7 +514,7 @@
                 }
             });
 
-            // 注記-河川、用水等
+            // 注記-河川名
             map.addLayer({
                 "type": "symbol",
                 "id": "gsi-label-layer",
