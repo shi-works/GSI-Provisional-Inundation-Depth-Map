@@ -166,6 +166,8 @@
             <option value="20200703oame_miyama_0708dansaizu">令和2年7月豪雨 浸水推定図 矢部川水系矢部川　みやま市周辺（2020年7月8日9時作成）</option>
             <option value="20200703oame_chikugogawa_0709dansaizu">令和2年7月豪雨 浸水推定図 筑後川水系筑後川第2報（2020年7月9日18時作成）</option>
             <option value="20200729rain_mogamigawa_0729dansaizu2">令和2年7月豪雨 浸水推定図 最上川水系最上川（2020年7月29日20時作成）</option>
+            <!--令和5年6月29日からの大雨-->
+            <option value="20230629rain_0711shinsui">令和5年6月29日からの大雨 浸水推定図 筑後川水系 筑後川</option>
         </select>
     </div>
     <div class="legend-png">
@@ -595,6 +597,7 @@
                 '20200703oame_miyama_0708dansaizu': [33.128351, 130.462646, 14, 0, 60],
                 '20200703oame_chikugogawa_0709dansaizu': [33.33496, 130.56938, 12.6, 0, 60],
                 '20200729rain_mogamigawa_0729dansaizu2': [38.45467, 140.3437, 13.9, 0, 60],
+                '20230629rain_0711shinsui': [33.33496, 130.56938, 12.6, 0, 60],
             };
             return CenterTable[CenterText];
         }
@@ -663,13 +666,23 @@
             });
 
             // 浸水推定図ラスタータイル
-            map.addSource("gsi-shinsui", {
-                type: "raster",
-                tiles: [
-                    "https://cyberjapandata.gsi.go.jp/xyz/" + PngTilesName + "/{z}/{x}/{y}.png"
-                ],
-                attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html">地理院タイル(近年の災害)</a>'
-            });
+            if (PngTilesName != '20230629rain_0711shinsui') {
+                map.addSource("gsi-shinsui", {
+                    type: "raster",
+                    tiles: [
+                        "https://cyberjapandata.gsi.go.jp/xyz/" + PngTilesName + "/{z}/{x}/{y}.png"
+                    ],
+                    attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html">地理院タイル(近年の災害)</a>'
+                });
+            } else if (PngTilesName === '20230629rain_0711shinsui') {
+                map.addSource("gsi-shinsui", {
+                    type: "raster",
+                    tiles: [
+                        "https://maps.gsi.go.jp/xyz/" + PngTilesName + "/{z}/{x}/{y}.png"
+                    ],
+                    attribution: '<a href="https://www.gsi.go.jp/BOUSAI/R5_0629_heavyrain.html">令和5年(2023年)6月29日からの大雨に関する情報</a>'
+                });
+            }
 
             map.addLayer({
                 id: 'gsi-shinsui-tiles',
