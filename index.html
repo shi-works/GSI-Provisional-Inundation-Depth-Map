@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>浸水推定図+洪水浸水想定区域</title>
+    <title>国土地理院 浸水推定図+洪水浸水想定区域</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src='https://unpkg.com/maplibre-gl@3.1.0/dist/maplibre-gl.js'></script>
@@ -20,12 +20,12 @@
         }
 
         .map-overlay {
-            font: bold 10px/12px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            font: bold 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
             position: absolute;
             width: 220px;
-            bottom: 25px;
+            bottom: 20px;
             left: 0;
-            padding: 5px;
+            padding: 10px;
         }
 
         .map-overlay .map-overlay-inner {
@@ -39,7 +39,7 @@
         .map-overlay label {
             display: block;
             margin: 0 0 0px;
-            font-size: 10px;
+            font-size: 12px;
             top: 100px;
             left: 10px;
             display: block;
@@ -93,7 +93,7 @@
             border-radius: 3px;
             bottom: 50px;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-            font: 10px/12px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            font: 12px/14px 'Helvetica Neue', Arial, Helvetica, sans-serif;
             padding: 10px;
             position: absolute;
             right: 10px;
@@ -198,7 +198,7 @@
             <label>不透明度</label>
             <label>浸水推定図: <span id="shinsui-slider-opacity-value">100%</span></label>
             <input id="shinsui-slider-opacity" type="range" min="0" max="100" step="1" value="100">
-            <label>洪水浸水想定区域(想定最大規模): <span id="kouzui-slider-opacity-value">100%</span></label>
+            <label>洪水浸水想定区域: <span id="kouzui-slider-opacity-value">100%</span></label>
             <input id="kouzui-slider-opacity" type="range" min="0" max="100" step="1" value="100">
             <!--
             <label>陰影起伏図: <span id="inei-slider-opacity-value">50%</span></label>
