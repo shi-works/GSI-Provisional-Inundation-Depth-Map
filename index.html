@@ -156,6 +156,9 @@
             <option value="20191012typhoon19_kuji_1014dansaizu">令和元年台風第19号 浸水推定段彩図 久慈川水系（久慈川）</option>
             <option value="20191012typhoon19_naka_1014dansaizu">令和元年台風第19号 浸水推定段彩図 那珂川水系（那珂川）</option>
             <option value="20191012typhoon19_arakawa_1014dansaizu">令和元年台風第19号 浸水推定段彩図 荒川水系（入間川・越辺川・都幾川）</option>
+            <!--令和元年10月の低気圧に伴う大雨-->
+            <option value="20191025oame_mobara_1028dansaizu_handoku">令和元年10月の低気圧に伴う大雨 浸水推定段彩図 空中写真判読版
+                一宮川水系（一宮川・豊田川・阿久川）茂原駅周辺</option>
             <!--令和2年7月豪雨-->
             <option value="20200703oame_kumagawahitoyoshi_0704dansaizu">令和2年7月豪雨 浸水推定図 球磨川水系球磨川　人吉市周辺（2020年7月4日13時作成）
             </option>
@@ -256,7 +259,7 @@
         // Attributionを折りたたみ表示
         map.addControl(new maplibregl.AttributionControl({
             compact: true,
-            customAttribution: '（<a href="https://twitter.com/syanseto" target="_blank">Twitter</a> | <a href="https://github.com/shi-works/GSI-Provisional-Inundation-Depth-Map" target="_blank">Github</a>） '
+            customAttribution: '（<a href="https://twitter.com/shi__works" target="_blank">Twitter</a> | <a href="https://github.com/shi-works/GSI-Provisional-Inundation-Depth-Map" target="_blank">Github</a>） '
         }));
 
         // 3D地形コントロール
@@ -297,7 +300,7 @@
                 minzoom: 2,
                 maxzoom: 18,
                 paint: {
-                    'raster-opacity': 0.5
+                    'raster-opacity': 0.3
                 }
             });
 
@@ -589,6 +592,8 @@
                 '20191012typhoon19_kuji_1014dansaizu': [36.518466, 140.460205, 14, 0, 60],
                 '20191012typhoon19_naka_1014dansaizu': [36.43173, 140.42166, 13.4, 0, 60],
                 '20191012typhoon19_arakawa_1014dansaizu': [35.951330, 139.449463, 14, 0, 60],
+                // 令和元年10月の低気圧に伴う大雨
+                '20191025oame_mobara_1028dansaizu_handoku': [35.415915, 140.306396, 14, 0, 60],
                 // 令和2年7月豪雨
                 '20200703oame_kumagawahitoyoshi_0704dansaizu': [32.222096, 130.726318, 14, 0, 60],
                 '20200703oame_kumagawa_0704dansaizu': [32.444885, 130.660400, 14, 0, 60],
